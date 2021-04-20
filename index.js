@@ -227,6 +227,20 @@ function menu() {
                 })
             })
     }
+
+    function selectManager() {
+        return connection.promise().query("SELECT * FROM employee ")
+            .then(res => {
+                return res[0].map(manager => {
+                    return {
+                        name: `${manager.first_name} ${manager.last_name}`,
+                        value: manager.id,
+                    }
+                })
+            })
+    
+    }
+    
     
         })
 }
