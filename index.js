@@ -340,6 +340,82 @@ function menu() {
             });
     
     }
+
+    function deleteDepartment() {
+        connection.promise().query('SELECT * FROM Department')
+            .then((res) => {
+                // make the choice dept arr
+                return res[0].map(dept => {
+                    return {
+                        name: dept.name,
+                        value: dept.id
+                    }
+                })
+            })
+            .then((departments) => {
+                return inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'deptId',
+                        choices: departments,
+                        message: 'Please select the department you want to delete.'
+                    }
+                ])
+            })
+            .then(answer => {
+                console.log(answer);
+                return connection.promise().query('DELETE FROM Department WHERE id = ?', answer.deptId);
+    
+            })
+            .then(res => {
+                
+                console.log('Department Deleted Successfully')
+                menu();
+            })
+    
+            .catch(err => {
+                throw err
+            });
+    
+    }
+
+    function deleteEmployee() {
+        connection.promise().query('SELECT * FROM employee')
+            .then((res) => {
+                // make the choice dept arr
+                return res[0].map(emp => {
+                    return {
+                        name: emp.first_name,
+                        value: emp.id
+                    }
+                })
+            })
+            .then((employees) => {
+                return inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'employeeId',
+                        choices: employees,
+                        message: 'Please select the employee you want to delete.'
+                    }
+                ])
+            })
+            .then(answer => {
+                console.log(answer);
+                return connection.promise().query('DELETE FROM Employee WHERE id = ?', answer.employeeId);
+    
+            })
+            .then(res => {
+                // console.log;
+                console.log('Employee Deleted Successfully')
+                menu();
+            })
+    
+            .catch(err => {
+                throw err
+            });
+    
+    }
     
     
     
