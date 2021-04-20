@@ -240,6 +240,55 @@ function menu() {
             })
     
     }
+
+    async function addEmployee() {
+
+        const managers = await selectManager();
+    
+    
+        inquirer.prompt([
+            {
+                name: "firstname",
+                type: "input",
+                message: "Enter their first name "
+            },
+            {
+                name: "lastname",
+                type: "input",
+                message: "Enter their last name "
+            },
+            {
+                name: "role",
+                type: "list",
+                message: "What is their role? ",
+                choices: await selectRole()
+            },
+            {
+                name: "manager",
+                type: "list",
+                message: "Whats their managers name?",
+                choices: managers
+            }
+        ]).then(function (res) {
+            let roleId = res.role
+            let managerId = res.manager
+    
+            console.log({managerId});
+            connection.query("INSERT INTO Employee SET ?",
+                {
+                    first_name: res.firstname,
+                    last_name: res.lastname,
+                    manager_id: managerId,
+                    role_id: roleId
+    
+                }, function (err) {
+                    if (err) throw err
+                    console.table(res)
+                    menu();
+                })
+    
+        })
+    }
     
     
         })
