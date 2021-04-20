@@ -201,5 +201,32 @@ function menu() {
                     }
                 ])
             })
+
+            .then(answer => {
+                console.log(answer);
+                return connection.promise().query('INSERT INTO role SET ?', { title: answer.roles, salary: answer.salary, department_id: answer.depts });
+            })
+            .then(res => {
+                console.log('Added new role')
+                menu();
+    
+            })
+            .catch(err => {
+                throw err
+            });
+    }
+
+    function selectRole() {
+        return connection.promise().query("SELECT * FROM role")
+            .then(res => {
+                return res[0].map(role => {
+                    return {
+                        name: role.title,
+                        value: role.id
+                    }
+                })
+            })
+    }
+    
         })
 }
