@@ -289,6 +289,58 @@ function menu() {
     
         })
     }
+
+    function updateEmployeeRole() {
+        connection.promise().query('SELECT *  FROM employee')
+            .then((res) => {
+                return res[0].map(employee => {
+                    return {
+                        name: employee.first_name,
+                        value: employee.id
+                    }
+                })
+            })
+            .then(async (employeeList) => {
+                return inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'employeeListId',
+                        choices: employeeList,
+                        message: 'Please select the employee you want to update a role:.'
+                    },
+                    {
+                        type: 'list',
+                        name: 'roleId',
+                        choices: await selectRole(),
+                        message: 'Please select role.'
+                    }
+                ])
+            })
+            .then(answer => {
+                console.log(answer);
+                return connection.promise().query("UPDATE employee SET  role_id = ? WHERE id = ?",
+    
+                        [
+                            answer.roleId,
+                            answer.employeeListId,
+                        ],
+    
+    
+                );
+    
+            })
+            .then(res => {
+                
+                console.log('Updated Manager Successfully')
+                menu();
+            })
+    
+            .catch(err => {
+                throw err
+            });
+    
+    }
+    
     
     
         })
