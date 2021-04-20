@@ -178,5 +178,28 @@ function menu() {
                 })
             })
             .then((departments) => {
+
+                return inquirer.prompt([
+
+                    {
+                        type: 'input',
+                        name: 'roles',
+                        message: 'Please add a role:'
+                    },
+    
+                    {
+                        type: 'input',
+                        name: 'salary',
+                        message: 'Please enter a salary:'
+                    },
+    
+                    {
+                        type: 'list',
+                        name: 'depts',
+                        choices: departments,
+                        message: 'Please select your department.'
+                    }
+                ])
+            })
         })
 }
