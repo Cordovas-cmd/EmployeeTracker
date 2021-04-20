@@ -344,7 +344,7 @@ function menu() {
     function deleteDepartment() {
         connection.promise().query('SELECT * FROM Department')
             .then((res) => {
-                // make the choice dept arr
+                // make the choice arr
                 return res[0].map(dept => {
                     return {
                         name: dept.name,
@@ -382,7 +382,7 @@ function menu() {
     function deleteEmployee() {
         connection.promise().query('SELECT * FROM employee')
             .then((res) => {
-                // make the choice dept arr
+                // make the choice arr
                 return res[0].map(emp => {
                     return {
                         name: emp.first_name,
@@ -408,6 +408,44 @@ function menu() {
             .then(res => {
                 // console.log;
                 console.log('Employee Deleted Successfully')
+                menu();
+            })
+    
+            .catch(err => {
+                throw err
+            });
+    
+    }
+
+    function deleteRole() {
+        connection.promise().query('SELECT title, id FROM role')
+            .then((res) => {
+                // make the choice arr
+                return res[0].map(roles => {
+                    return {
+                        name: roles.title,
+                        value: roles.id
+                    }
+                })
+            })
+            .then((employeeRoles) => {
+                return inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'roleId',
+                        choices: employeeRoles,
+                        message: 'Please select the employee you want to delete.'
+                    }
+                ])
+            })
+            .then(answer => {
+                console.log(answer);
+                return connection.promise().query('DELETE FROM Role WHERE id = ?', answer.roleId);
+    
+            })
+            .then(res => {
+                // console.log;
+                console.log('Role Deleted Successfully')
                 menu();
             })
     
