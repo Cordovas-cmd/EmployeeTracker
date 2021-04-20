@@ -143,5 +143,40 @@ function menu() {
     
         )
     }
+
+    function addDepartment() {
+        inquirer.prompt([
+    
+            {
+                type: 'input',
+                name: 'department',
+                message: 'Please add a department name:'
+            }
+    
+        ]).then(answer => {
+            console.log(answer);
+            connection.query('INSERT INTO department SET?', { name: answer.department }, (err, res) => {
+                if (err) throw err;
+                console.log('Added new department')
+                menu();
+            });
+        });
+    }
+
+    function addRoles() {
+        console.log('aa');
+    
+        // check all depts
+        connection.promise().query("SELECT * FROM Department")
+            .then((res) => {
+                // create an array based on user input 
+                return res[0].map(dept => {
+                    return {
+                        name: dept.name,
+                        value: dept.id
+                    }
+                })
+            })
+            .then((departments) => {
         })
 }
