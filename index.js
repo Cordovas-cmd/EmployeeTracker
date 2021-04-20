@@ -95,5 +95,26 @@ function menu() {
             }
         }) 
     }
+
+    function viewAllDepartments() {
+        connection.query(
+            'SELECT * FROM Department', (err, res) => {
+                if (err) {
+                    throw err;
+
+                    // if(res.length > 0) {
+                    //     console.log('\n')
+                    //     console.log(' ** Departments **')
+                    //     console.log('\n')
+                    //     console.table(res);
+                    // }
+                    // //restart
+                    // menu();
+                }
+                console.table(res)
+                runList();
+            }
+        )
+    }
         })
 }
