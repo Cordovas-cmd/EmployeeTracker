@@ -1,32 +1,47 @@
 // Requirements.
 const inquirer = require('inquirer');
+const util = require('util');
 const mysql = require('mysql');
+const conTab = require('console.table');
 
 const connection = mysql.createConnection({
     host: 'localhost',
     port: '',
+    // Your MySQL username
     user: 'root',
+    //Your MySQL password
     password: 'root',
     database: 'Employee_Tracker',
 });
 
-connection.connect();
+connection.connect(err => {
+    if(err) throw err;
+    console.log('connected as id' + connection.threadID + '\n');
+    menu();
+});
 
 //Function to handle data with inquirer prompt
-function runNode() {
+function menu() {
     inquirer.prompt(
         {
-//View departments, 
-//View all roles
-//view all employees
-// Add department
-// add roles
-// Add employees
-// Delete departments
-//Delete employee
-//Delete roles
-//Update employee Roles
-//Update employee Manager
-//View employee by Manager
-        })
+            type: 'list',
+            message: 'What would you like to do?',
+            name: 'option',
+            choices: [
+                'View all departments',
+                'View all Roles',
+                'View all employees',
+                'Add department',
+                'Add Roles',
+                'Add Employees',
+                'Delete Departments',
+                'Delete Employee',
+                'Delete Roles',
+                'Update Employee Roles',
+                'Update employee manager',
+                'View Employee By Manager',
+                'Exit'
+            ]
+
+        }).then(answer => )
 }
